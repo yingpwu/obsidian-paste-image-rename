@@ -41,6 +41,7 @@ interface PluginSettings {
 	dupNumberAtStart: boolean;
 	auto_resize: boolean;
 	dupNumberDelimiter: string;
+	resize_pattern: string;
 	dupNumberAlways: boolean;
 	autoRename: boolean;
 	handleAllAttachments: boolean;
@@ -53,6 +54,7 @@ const DEFAULT_SETTINGS: PluginSettings = {
 	dupNumberAtStart: false,
 	auto_resize: false,
 	dupNumberDelimiter: "-",
+	resize_pattern: "|600",
 	dupNumberAlways: false,
 	autoRename: false,
 	handleAllAttachments: false,
@@ -211,7 +213,16 @@ export default class PasteImageRenamePlugin extends Plugin {
 
 		const cursor = editor.getCursor();
 		const line = editor.getLine(cursor.line);
-		const replacedLine = line.replace(linkText, newLinkText);
+
+		var replacedLine = "";
+		if (this.settings.auto_resize) {
+			const resized_line_text = `${newLinkText.slice(0, -2)}${
+				this.settings.resize_pattern
+			}${newLinkText.slice(-2)}`;
+			replacedLine = line.replace(linkText, resized_line_text);
+		} else {
+			replacedLine = line.replace(linkText, newLinkText);
+		}
 		debugLog("current line -> replaced line", line, replacedLine);
 		// console.log('editor context', cursor, )
 		editor.transaction({
@@ -671,12 +682,27 @@ class SettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName("auto resieze")
-			.setDesc(`If enabled, aotu resize the image to a smaller size`)
+			.setDesc(
+				`If enabled, auto resize the image to a smaller size in editor viewer`
+			)
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.auto_resize)
 					.onChange(async (value) => {
 						this.plugin.settings.auto_resize = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+		new Setting(containerEl)
+			.setName("resize pattern")
+			.setDesc(`default resize pattern is "|600"`)
+			.addText((text) =>
+				text
+					.setValue(this.plugin.settings.resize_pattern)
+					.onChange(async (value) => {
+						this.plugin.settings.resize_pattern =
+							sanitizer.delimiter(value);
 						await this.plugin.saveSettings();
 					})
 			);
