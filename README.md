@@ -1,6 +1,8 @@
+添加对图片了自动调整大小的选项,并可以设置重置大小选项
+
 # Obsidian paste image rename
 
-> :loudspeaker: Starting from 1.4.0, Paste image rename becomes a general-purpose renaming plugin
+> 📢 Starting from 1.4.0, Paste image rename becomes a general-purpose renaming plugin
 > that can handle all attachments added to the vault.
 
 This plugin is inspired by Zettlr, Zettlr shows a prompt that allows the user to rename the image, this is a great help if you want your images to be named and organized clearly.
@@ -9,11 +11,13 @@ This plugin is inspired by Zettlr, Zettlr shows a prompt that allows the user to
   <summary>Zettlr's prompt after pasting an image</summary>
 
   ![image](https://user-images.githubusercontent.com/405972/162478462-b5ff4fc9-ade2-4ace-adcb-c6436479a7d9.png)
+
 </details>
 
 Paste image rename plugin not only implements Zettlr's feature, but also allows you to customize how the image name would be generated, and eventually free you from the hassle by automatically renaming the image according to the rules.
 
 **Table of Contents**
+
 - [Obsidian paste image rename](#obsidian-paste-image-rename)
   - [How to use](#how-to-use)
     - [Basic usage](#basic-usage)
@@ -57,7 +61,6 @@ You can change the pattern for new name generating by updating the "Image name p
 
 For a detailed explanation and other features such as auto renaming, please refer to [Settings](#settings).
 
-
 ### Add prefix/suffix to duplicated names
 
 The plugin will always try to add a prefix/suffix if there's a file of the same name.
@@ -67,6 +70,7 @@ Let's continue from the last section and paste the second image, the prompt will
 <img src="images/document.png" width="400px">
 
 The `-1` suffix is generated according to the default settings:
+
 - Because "Duplicate number at start" is false, suffix is used rather than prefix
 - "Duplicate number delimiter" `-` is put before the number `1`
 
@@ -89,7 +93,6 @@ to `bar-1-png`, `bar-2.png`… with this feature.
 You can also rename the images to the same name, and let the plugin handle
 the name deduplication for you.  See a video demonstration here:
 https://i.imgur.com/6UICugX.mp4
-
 
 ### Batch rename all images instantly
 
@@ -119,12 +122,11 @@ To use this feature, you need to enable the "Handle all attachments" option in s
 Additionally, you can configure the "Exclude extension pattern" to ignore files
 that match the given extension pattern.
 
-
 ## FAQ
 
 - Q: I pasted an image but the rename prompt did not show up.
 
-    A: This is probably because you are using the Windows system and pasting from a file (i.e. the image is copied from File Explorer, not from a browser or image viewer). In Windows, pasting from a file is like a regular file transfer, the original filename is kept rather than being created and named "Pasted image ..." by Obsidian. You need to turn on "Handle all attachments" in settings to make it work in this situation.
+  A: This is probably because you are using the Windows system and pasting from a file (i.e. the image is copied from File Explorer, not from a browser or image viewer). In Windows, pasting from a file is like a regular file transfer, the original filename is kept rather than being created and named "Pasted image ..." by Obsidian. You need to turn on "Handle all attachments" in settings to make it work in this situation.
 
 ## Settings
 
@@ -133,13 +135,14 @@ that match the given extension pattern.
   The pattern indicates how the new name should be generated.
 
   - Available variables:
+
     - `{{fileName}}`: name of the active file, without ".md" extension.
     - `{{imageNameKey}}`: this variable is read from the markdown file's frontmatter, from the same key `imageNameKey`.
     - `{{DATE:$FORMAT}}`: use `$FORMAT` to format the current date, `$FORMAT` must be a Moment.js format string, e.g. `{{DATE:YYYY-MM-DD}}`.
-
   - Examples
 
     Here are some examples from pattern to image names (repeat in sequence), variables: `fileName = "My note", imageNameKey = "foo"`:
+
     - `{{fileName}}`: My note, My note-1, My note-2
     - `{{imageNameKey}}`: foo, foo-1, foo-2
     - `{{imageNameKey}}-{{DATE:YYYYMMDD}}`: foo-20220408, foo-20220408-1, foo-20220408-2
@@ -155,12 +158,11 @@ that match the given extension pattern.
 - **Handle all attachments**
 
   By default, the rename modal will always be shown to confirm before renaming, if this option is set, the image will be auto renamed after pasting.
-
 - **Exclude extension pattern**
 
   This option is only useful when "Handle all attachments" is enabled.
-	Write a Regex pattern to exclude certain extensions from being handled. Only the first line will be used.
+  Write a Regex pattern to exclude certain extensions from being handled. Only the first line will be used.
 - **Disable rename notice**
 
   Turn off this option if you don't want to see the notice when renaming images.
-	Note that Obsidian may display a notice when a link has changed, this option cannot disable that.
+  Note that Obsidian may display a notice when a link has changed, this option cannot disable that.

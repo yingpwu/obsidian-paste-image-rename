@@ -46,7 +46,8 @@ esbuild.build({
 	logLevel: "info",
 	sourcemap: prod ? false : 'inline',
 	treeShaking: true,
-	outdir: './',
+	// outdir: '../../.obsidian/plugins/testing',
+	outdir: 'build',
 	legalComments: 'inline',
 	plugins: [runScriptPlugin],
 }).catch(() => process.exit(1));
