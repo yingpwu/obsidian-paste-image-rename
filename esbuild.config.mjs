@@ -46,7 +46,7 @@ esbuild.build({
 	logLevel: "info",
 	sourcemap: prod ? false : 'inline',
 	treeShaking: true,
-	outdir: 'build',
+	outdir: './',
 	legalComments: 'inline',
 	plugins: [runScriptPlugin],
 }).catch(() => process.exit(1));
